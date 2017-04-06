@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+ruby '2.2.6'
 
 gem 'rails', '~> 4.0'
 gem 'responders', '~> 2.0'
@@ -14,6 +15,7 @@ group :production do
 	gem 'pg'
   gem 'heroku-deflater'
   gem 'newrelic_rpm'
+  gem 'rails_12factor'
 end
 
 gem 'ruby_dep', '~> 1.3.1'
