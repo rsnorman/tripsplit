@@ -7,8 +7,8 @@ class TripMembership < ActiveRecord::Base
   after_create :add_obligations
 
   def add_obligations
-    self.trip.expenses.where(is_loan: false).each do |e|
-      user.add_obligation(e, "Expense Obligation", e.cost / self.trip.members.size)
+    self.trip.expenses.each do |e|
+      user.add_obligation(e, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, e.cost / self.trip.members.size)
       e.reaverage_obligations
     end
   end

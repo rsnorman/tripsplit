@@ -1,5 +1,9 @@
 GroupExpenser::Application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'api/v1/auth', skip: [:omniauth_callbacks]
+  devise_for :users
+
+  namespace :api do
+    mount_devise_token_auth_for 'User', at: 'v1/auth', skip: [:omniauth_callbacks]
+  end
 
   namespace :api do
     namespace :v1 do
@@ -27,4 +31,8 @@ GroupExpenser::Application.routes.draw do
       end
     end
   end
+
+  get '/join/:id', to: 'trips#join', as: :join_trip
+
+  root to: 'home#index'
 end

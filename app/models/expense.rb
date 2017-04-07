@@ -1,6 +1,4 @@
 class Expense < ActiveRecord::Base
-  DEFAULT_OBLIGATION_TYPE = 'Expense Obligation'.freeze
-
   mount_uploader :picture, ExpensePictureUploader
 
   belongs_to :purchaser, class_name: User
@@ -15,13 +13,13 @@ class Expense < ActiveRecord::Base
   # Creates obligations for each trip member so that expense is evenly divided
   def create_obligations_for_trip_members
     trip.members.each do |member|
-      member.add_obligation(self, DEFAULT_OBLIGATION_TYPE, average_cost)
+      member.add_obligation(self, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, average_cost)
     end
   end
 
   # Reaverages the obligations to make sure the full cost is covered of the expense
   def reaverage_obligations
-    obligations.update_all(:amount, average_cost)
+    obligations.update_all(amount: average_cost)
   end
 
   # Gets the cost for a member, factoring in obligations

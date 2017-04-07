@@ -1,11 +1,11 @@
 # Controller for registering, updating, and deleting expenses
 class Api::V1::PaymentsController < Api::ApiController
-	before_action :get_payment_user, only: :index
+  before_action :get_payment_user, only: :index
   before_action :get_trip, only: :index
 
-	def index
+  def index
     @payments = get_payments
-	end
+  end
 
   private
 
