@@ -1,9 +1,0 @@
-<norm-row title="Organizer" src="{{currentTrip.organizer.profile_image_url}}">{{currentTrip.organizer.name}}</norm-row>
-<norm-row title="Location" icon="globe">{{currentTrip.location}}</norm-row>
-<norm-row title="Group Size" icon="group">{{currentTrip.total_members}}</norm-row>
-<norm-row title="Total Cost" icon="credit-card">
-	<span ng-bind-html-unsafe="currentTrip.total_cost | currency | normCurrency"></span>
-</norm-row>
-<norm-row title="Average Cost" icon="credit-card">
-	<span ng-bind-html-unsafe="currentTrip.average_cost_per_member | currency | normCurrency"></span>
-</norm-row>

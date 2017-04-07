@@ -4,9 +4,6 @@ ruby '2.2.6'
 gem 'rails', '~> 4.0'
 gem 'responders', '~> 2.0'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 group :development do
 	gem 'sqlite3'
 end
@@ -26,17 +23,6 @@ gem 'devise'
 gem 'devise_token_auth'
 
 gem 'cancancan'
-
-gem 'rack-cors', :require => 'rack/cors'
-
-gem 'omniauth'
-
-gem 'omniauth-twitter'
-gem 'twitter'
-gem 'twitter-text'
-
-gem 'omniauth-facebook'
-gem "koala", "~> 1.7.0rc1"
 
 gem 'rest-client'
 

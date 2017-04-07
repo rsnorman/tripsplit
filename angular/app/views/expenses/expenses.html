@@ -1,9 +1,0 @@
-<norm-row title="{{expense.name}}" href="#/expenses/{{expense.id}}" icon="{{expense.expense_type | normExpenseIcon}}" ng-repeat="expense in expenses">
-	<span ui-if="!expense.isLoan()">
-		Purchased by {{expense.purchaser.name}} for
-	</span>
-	<span ui-if="expense.isLoan()">
-		{{expense.purchaser.name}} loaned {{expense.loanee.name}}
-	</span>
-  <span ng-bind-html-unsafe="expense.cost | currency | normCurrency"></span>
-</norm-row>

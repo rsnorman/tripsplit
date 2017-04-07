@@ -15,6 +15,6 @@ json.expense do
 end
 
 json.actions do
-  json.show(url: api_link(expense_expense_obligation_path(obligation.expense, obligation)), method: 'GET') if can?(:read, obligation)
-  json.pay(url: api_link(pay_expense_obligation_path(obligation)), method: 'POST') if can?(:pay, obligation)
+  json.show(url: api_link(obligation_path(obligation)), method: 'GET') if can?(:read, obligation)
+  json.pay(url: api_link(pay_obligation_path(obligation)), method: 'POST') if can?(:pay, obligation)
 end

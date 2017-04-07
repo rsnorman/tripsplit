@@ -1,5 +1,0 @@
-<norm-row title="{{trip.name}}" href="#/trips/{{trip.id}}" ng-repeat="trip in trips">
-	Cost: <span ng-bind-html-unsafe="trip.total_cost | currency | normCurrency"></span>
-	<br>
-	Average Cost: <span ng-bind-html-unsafe="trip.average_cost_per_member | currency | normCurrency"></span>
-</norm-row>
