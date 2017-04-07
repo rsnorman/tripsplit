@@ -1,5 +1,5 @@
 # Controller for registering, updating, and deleting obligations
-class ExpenseObligationsController < ApplicationController
+class Api::V1::ExpenseObligationsController < Api::ApiController
   def index
     @expense = current_user.expenses.find(params[:expense_id])
     @obligations = @expense.obligations.includes(:user)

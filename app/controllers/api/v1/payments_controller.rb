@@ -1,5 +1,5 @@
 # Controller for registering, updating, and deleting expenses
-class PaymentsController < ApplicationController
+class Api::V1::PaymentsController < Api::ApiController
 	before_action :get_payment_user, only: :index
   before_action :get_trip, only: :index
 
