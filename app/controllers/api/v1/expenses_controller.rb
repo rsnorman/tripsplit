@@ -1,5 +1,5 @@
 # Controller for registering, updating, and deleting expenses
-class ExpensesController < ApplicationController
+class Api::V1::ExpensesController < Api::ApiController
   load_and_authorize_resource :trip, through: :current_user, only: [:index, :create]
   load_and_authorize_resource through: :trip, only: :create
   load_and_authorize_resource except: [:index, :create]

@@ -1,26 +1,30 @@
 GroupExpenser::Application.routes.draw do
-  mount_devise_token_auth_for 'User', at: 'auth', skip: [:omniauth_callbacks]
+  mount_devise_token_auth_for 'User', at: 'api/v1/auth', skip: [:omniauth_callbacks]
 
-  resources :users, only: [:show, :update] do
-    resources :payments, only: :index
-  end
+  namespace :api do
+    namespace :v1 do
+      resources :users, only: [:show, :update] do
+        resources :payments, only: :index
+      end
 
-  resources :trips, only: [:create, :show, :index, :update, :destroy] do
-    resources :members, controller: :members, only: :index
-    resources :expenses, only: [:create, :show, :index, :update, :destroy]
+      resources :trips, only: [:create, :show, :index, :update, :destroy] do
+        resources :members, controller: :members, only: :index
+        resources :expenses, only: [:create, :show, :index, :update, :destroy]
 
-    member do
-      get :join
-    end
-  end
+        member do
+          get :join
+        end
+      end
 
-  resources :expenses, only: :show do
-    resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :index
-  end
+      resources :expenses, only: :show do
+        resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :index
+      end
 
-  resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :show do
-    member do
-      post :pay
+      resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :show do
+        member do
+          post :pay
+        end
+      end
     end
   end
 end

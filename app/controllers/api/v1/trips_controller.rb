@@ -1,5 +1,5 @@
 # Controller for registering, updating, and deleting trips
-class TripsController < ApplicationController
+class Api::V1::TripsController < Api::ApiController
 	def index
 		@trips = params[:organized] ? current_user.organized_trips : current_user.trips
 	end

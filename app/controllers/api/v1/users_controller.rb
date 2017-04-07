@@ -1,5 +1,5 @@
 # Controller for registering, updating, and deleting users
-class UsersController < ApplicationController
+class Api::V1::UsersController < Api::ApiController
 	def update
     @user = current_user
 		@user.update_attributes(user_params)
