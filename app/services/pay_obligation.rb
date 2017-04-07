@@ -9,8 +9,8 @@ class PayObligation
 
   def pay
     ExpenseContribution.create(expense: obligation.expense,
-                               user: obligation.user,
-                               is_paid: true)
+                               amount: obligation.amount,
+                               user: obligation.user)
   end
 
   private

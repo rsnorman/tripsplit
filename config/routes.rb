@@ -18,7 +18,7 @@ GroupExpenser::Application.routes.draw do
     resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :index
   end
 
-  resources :obligations, only: :show do
+  resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :show do
     member do
       post :pay
     end
