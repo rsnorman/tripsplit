@@ -1,4 +1,6 @@
 class ExpenseObligation < ActiveRecord::Base
+  DEFAULT_OBLIGATION_TYPE = 'Expense Obligation'.freeze
+
   belongs_to :user
   belongs_to :expense
 

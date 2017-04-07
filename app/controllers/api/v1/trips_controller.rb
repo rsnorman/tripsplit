@@ -1,38 +1,29 @@
 # Controller for registering, updating, and deleting trips
 class Api::V1::TripsController < Api::ApiController
-	def index
-		@trips = params[:organized] ? current_user.organized_trips : current_user.trips
-	end
+  load_and_authorize_resource through: :current_user
 
-	def show
-		@trip = current_user.trips.find(params[:id])
-	end
-
-  def join
-    @trip = current_user.trips.find(params[:id])
-    @trip.members << current_user
-    redirect_to root_path
+  def index
+    @trips = current_user.trips
   end
 
-	def create
-		@trip = current_user.trips.build(trip_params)
-    @trip.organizer_id = current_user.id
+  def create
+    @trip.attributes = trip_params
     @trip.save
-	end
+  end
 
-	def update
-		@trip = current_user.organized_trips.find(params[:id])
-		@trip.update_attributes(trip_params)
-	end
+  def update
+    @trip.update(trip_params)
+  end
 
-	def destroy
-		@trip = current_user.organized_trips.find(params[:id])
-		@trip.destroy
-	end
+  def destroy
+    @trip.destroy
+  end
 
-	private
+  private
 
-	def trip_params
-		params.require(:trip).permit(:name, :location, :description, :picture)
-	end
+  def trip_params
+    params.require(:trip).permit(:name, :location, :description, :picture).tap do |p|
+      p[:organizer_id] = current_user.id
+    end
+  end
 end

@@ -9,7 +9,7 @@ class Api::V1::ExpensesController < Api::ApiController
   end
 
   def create
-    @expense = @trip.expenses.build(expense_params)
+    @expense.attributes = expense_params
     @expense.save
   end
 
