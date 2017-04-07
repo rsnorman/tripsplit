@@ -3,37 +3,14 @@ class Trip < ActiveRecord::Base
 
   mount_uploader :picture, TripPictureUploader
 
-  attr_accessor :needs_facebook_event
+  belongs_to :organizer, class_name: User
+  has_many :memberships, class_name: TripMembership, dependent: :destroy
+  has_many :members, through: :memberships, source: :user
+  has_many :expenses, dependent: :destroy
+  has_many :obligations, through: :expenses
+  has_many :contributions, through: :expenses
 
-  belongs_to :organizer, :class_name => User
-  has_many :memberships, :class_name => TripMembership, :dependent => :destroy
-  has_many :members, :through => :memberships, :source => :user
-  has_many :expenses, :dependent => :destroy
-  has_many :obligations, :through => :expenses
-  has_many :contributions, :through => :expenses
-
-  before_save :create_facebook_event, :if => lambda { self.needs_facebook_event }
-  before_save :remove_facebook_event, :if => lambda { self.needs_facebook_event == false && self.facebook_event_id }
   after_create :add_organizer_as_member
-
-  # TODO: Test that this works
-  def create_facebook_event
-    fb_event = Koala::Facebook::API.new(self.organizer.facebook_access_token).put_connections(self.organizer.facebook_id, 'events', {
-      :name => self.name,
-      :start_time => self.starts_on,
-      :end_time => self.ends_on,
-      :location => self.location,
-      :description => "#{self.description} \n\nManage event expenses: http://tripsplit.herokuapp.com/#/trips/#{self.id}/join",
-      :privacy_type => 'SECRET'
-      })
-
-    self.facebook_event_id = fb_event['id']
-  end
-
-  # TODO: Test that this works
-  def remove_facebook_event
-    Koala::Facebook::API.new(self.organizer.facebook_access_token).delete_object(self.facebook_event_id)
-  end
 
   # Adds the organizer as a member of the trip
   def add_organizer_as_member
@@ -54,11 +31,7 @@ class Trip < ActiveRecord::Base
   # Adds up all the expenses of the trip and returns the total cost
   # @return [BigDecimal] total cost of trip
   def total_cost
-    @total_cost = 0
-    expenses.each do |expense|
-      @total_cost += expense.cost
-    end
-    @total_cost
+    @total_cost ||= expenses.sum(:cost)
   end
 
   # Adds up all the expenses and averages them per member
@@ -88,9 +61,9 @@ class Trip < ActiveRecord::Base
   # @param [User] member that has contributed
   # @return [BigDecimal] total amount of contributions
   def total_contributed_from(member)
-    contributed_total = member.purchases.where(:trip_id => self.id).sum(:cost)
-    contributed_total += member.contributions.where(["expense_id IN (:expense_ids)", {:expense_ids => expenses.collect(&:id)}]).sum(:amount)
-    contributed_total -= contributions.where(["expense_id IN (:expense_ids)", {:expense_ids => member.purchases.collect(&:id)}]).sum(:amount)
+    contributed_total = member.purchases.where(trip_id: self.id).sum(:cost)
+    contributed_total += member.contributions.where(["expense_id IN (:expense_ids)", {expense_ids: expenses.collect(&:id)}]).sum(:amount)
+    contributed_total -= contributions.where(["expense_id IN (:expense_ids)", {expense_ids: member.purchases.collect(&:id)}]).sum(:amount)
     contributed_total
   end
 
@@ -101,95 +74,8 @@ class Trip < ActiveRecord::Base
     member.obligations.where(expense: expenses).sum(:amount)
   end
 
-  # Gets a list of members that are due money and how much credit they have
-  # @return [Array<Hash>] list of members due money
-  def outstanding_creditors
-    creditors = []
-    members.each do |member|
-      credit = amount_owed_to(member)
-      creditors << {:member => member, :credit => credit} if credit > 0
-    end
-    creditors
-  end
-
-  # Gets a list of members that owe money and how much debt they have
-  # @return [Array<Hash>] list of members owing money
-  def outstanding_debtors
-    debtors = []
-    members.each do |member|
-      debt = amount_owed_from(member)
-      debtors << {:member => member, :debt => debt} if debt > 0
-    end
-    debtors
-  end
-
-  def member_details
-    self.members.collect{|x| x.serializable_hash.merge({
-      :total_paid => number_to_currency(total_contributed_from(x)),
-      :total_obligated => number_to_currency(self.total_obligated_from(x)),
-      :total_owed => number_to_currency(self.total_owed_from(x)),
-      :total_due => number_to_currency(self.total_due_to(x))})
-    }
-  end
-
-  # Prints out the trip details in a pretty format
-  def to_s
-
-    trip_details = <<-EOF
-    #{self.name}
-    ---------------------------------------------
-    Total Trip Cost: #{number_to_currency(self.total_cost)}
-    Average Cost Per Member #{number_to_currency(self.average_cost_per_member)}
-    Total Expenses: #{self.expenses.count}
-    Average Expense Cost: #{number_to_currency(self.total_cost / self.expenses.count)}
-
-      EOF
-
-    trip_details += "    Expenses\n    ---------------------------------------------\n"
-    self.expenses.each do |e|
-      trip_details += <<-EOF
-      #{e.name}
-      ---------------
-      Cost: #{number_to_currency(e.cost)}
-      Average Cost: #{number_to_currency(e.average_cost)}
-      Purchaser: #{e.purchaser.name}
-
-      EOF
-    end
-
-    trip_details += "    Members\n    ---------------------------------------------\n"
-    self.members.each do |m|
-      trip_details += <<-EOF
-      #{m.name}
-      ---------------
-      Total Paid: #{number_to_currency(self.total_contributed_from(m))}
-      Total Obligated: #{number_to_currency(self.total_obligated_from(m))}
-      #{self.total_owed_from(m).zero? ? "Amount Due: #{number_to_currency(self.total_due_to(m))}" : "Amount Owe: #{number_to_currency(self.total_owed_from(m))}"}
-
-      EOF
-    end
-
-    trip_details
-  end
-
   # Gets the total number of members for the trip
   def total_members
     members.count
-  end
-
-  # Formats start date in nicer format
-  def pretty_start
-    starts_on && starts_on.strftime("%b #{starts_on.day.ordinalize}")
-  end
-
-  def pretty_end
-    ends_on && ends_on.strftime("%b #{ends_on.day.ordinalize}")
-  end
-
-  # Adds attributes to hash that are accessed through methods on not database columns
-  def serializable_hash(options = {})
-    options[:methods] = [:total_cost, :average_cost_per_member, :total_members, :pretty_start, :pretty_end]
-    options[:include] = [:organizer]
-    super
   end
 end
