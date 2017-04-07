@@ -54,12 +54,5 @@ module GroupExpenser
 
     # Version of your assets, change this if you want to expire all your assets
     # config.assets.version = '1.0'
-
-    config.middleware.use Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :put, :delete, :options]
-      end
-    end
   end
 end
