@@ -1,7 +1,7 @@
 # Controller for registering, updating, and deleting trips
 class TripsController < ApplicationController
   def join
-    @trip = current_user.trips.find(params[:id])
+    @trip = Trip.find(params[:id])
     if @trip.members.include? current_user
       flash[:error] = "You have already join #{@trip.name}"
     else
