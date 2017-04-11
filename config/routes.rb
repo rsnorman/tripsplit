@@ -14,10 +14,6 @@ GroupExpenser::Application.routes.draw do
       resources :trips, only: [:create, :show, :index, :update, :destroy] do
         resources :members, controller: :members, only: :index
         resources :expenses, only: [:create, :show, :index, :update, :destroy]
-
-        member do
-          get :join
-        end
       end
 
       resources :expenses, only: :show do
@@ -32,7 +28,11 @@ GroupExpenser::Application.routes.draw do
     end
   end
 
-  get '/join/:id', to: 'trips#join', as: :join_trip
+  resources :trips, only: nil do
+    resources :joins, controller: :trip_joins, only: [:new, :create]
+  end
+
+  get '/join/:trip_id', to: 'trip_joins#new', as: :join_trip
 
   root to: 'home#index'
 end

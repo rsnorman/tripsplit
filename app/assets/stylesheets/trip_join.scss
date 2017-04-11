@@ -1,0 +1,22 @@
+@import 'variables';
+
+.trip-member {
+  margin-bottom: 15px;
+  text-align: left;
+
+  .member-image {
+    float: left;
+    margin-right: 15px;
+  }
+  img {
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+  }
+}
+
+#trip_invite {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid $color-primary-2;
+}
