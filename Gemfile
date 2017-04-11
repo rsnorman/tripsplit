@@ -3,6 +3,7 @@ ruby '2.2.6'
 
 gem 'rails', '~> 4.0'
 gem 'responders', '~> 2.0'
+gem 'sass-rails', '~> 5.0'
 
 group :development do
 	gem 'sqlite3'

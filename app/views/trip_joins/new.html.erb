@@ -1,0 +1,42 @@
+<div class="row">
+  <div id="page_title" class="large-12 columns">
+    <h2>Join <%= @trip.name %></h2>
+  </div>
+</div>
+
+<div class="row">
+  <div id="trip_description" class="large-6 columns">
+    <p>
+      <em><%= @trip.location %></em>
+      <br />
+      <%= @trip.description %>
+    </p>
+    <div class="row">
+      <%= form_tag trip_joins_path(@trip), id: "trip_invite", class: "large-12 columns" do |f| %>
+        <p>
+          Let's see some crazy sights, make some memories, and not worry about money!
+        </p>
+        <div class="actions">
+          <%= submit_tag "Join", class: 'button' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div id="trip_members" class="large-5 push-1 columns">
+    <h3>Trip Members</h3>
+    <% @trip.members.each do |member| %>
+      <div class="trip-member row">
+        <div class="large-12 columns">
+          <div class="member-image">
+            <img src="<%= member.picture.thumb.url %>" alt="<%= member.name %>" />
+          </div>
+          <div class="member-details">
+            <%= member.name %>
+            <br />
+            <em><%= member.email %></em>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+.home-phones {
+  margin-top: 25px;
+    position: relative;
+    width: 318px;
+    height: 512px;
+    background: url(../images/home-phones.png) no-repeat 0 0;
+    z-index: 0;
+}
+
+#iphone-overlay {
+  left: 98px;
+  position: relative;
+  top: 79px;
+}
+
+#iphone-overlay img {
+    position: absolute;
+    width: 200px !important;
+    z-index: 8;
+}
+
+#iphone-overlay img.active {
+    z-index: 10;
+}
+
+#iphone-overlay img.last-active {
+    z-index: 9;
+}
+
+.home-phones-glare {
+    position: absolute;
+    right: 20px;
+    top: 79px;
+    width: 94px;
+    height: 192px;
+    background: url(../images/home-phones-glare.png) no-repeat 100% 0;
+    z-index: 10;
+}
+
+
+.platform-badge-container {
+    position: relative;
+    margin-top: 25px;
+}
+
+.platform-badge {
+    margin-right: 16px;
+}
+
+#download_message {
+  margin-top: 25px;
+}

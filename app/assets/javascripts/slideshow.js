@@ -1,5 +1,4 @@
 function next_slide() {
-    console.log("next")
     var active = $('#iphone-overlay img.active');
     if (active.length == 0) active = $('#iphone-overlay img:last');
     var next = active.next().length ? active.next() : $('#iphone-overlay img:first');
