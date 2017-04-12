@@ -2,7 +2,6 @@ class RemoveUnusedColumns < ActiveRecord::Migration
   def change
     remove_column :expense_contributions, :is_paid, :boolean
 
-    remove_column :expense_obligations, :is_paid, :boolean
     remove_column :expense_obligations, :is_tip, :boolean
     remove_column :expense_obligations, :is_average, :boolean
 
@@ -10,7 +9,7 @@ class RemoveUnusedColumns < ActiveRecord::Migration
     remove_column :expenses, :tip, :decimal, precision: 8, scale: 2, default: 0.0
     remove_column :expenses, :tip_included, :boolean
 
-    # drop_table :friendships
+    drop_table :friendships
 
     remove_column :trips, :facebook_event_id, :string
     remove_column :trips, :starts_on, :date
