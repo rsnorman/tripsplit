@@ -11,6 +11,10 @@ class Trip < ActiveRecord::Base
   has_many :contributions, through: :expenses
 
   after_create :add_organizer_as_member
+  after_create :set_slug
+
+  validates :name, presence: true
+  validates :location, presence: true
 
   # Adds the organizer as a member of the trip
   def add_organizer_as_member
@@ -77,5 +81,11 @@ class Trip < ActiveRecord::Base
   # Gets the total number of members for the trip
   def total_members
     members.count
+  end
+
+  private
+
+  def set_slug
+    self.slug = "#{CGI.escape(name[0..20])}-#{SecureRandom.hex(5)}"
   end
 end

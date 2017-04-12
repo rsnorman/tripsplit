@@ -4,7 +4,7 @@ json.organizer do
   json.partial! 'api/v1/users/user', user: trip.organizer
 end
 
-json.join_trip_url api_link(join_trip_path(trip))
+json.join_trip_url api_link(join_trip_path(trip.slug))
 
 json.actions do
   json.show(url: api_link(api_v1_trip_path(trip)), method: 'GET')
