@@ -5,7 +5,7 @@
 </div>
 
 <div class="row">
-  <div id="trip_description" class="large-6 columns">
+  <div id="trip_description" class="large-12 columns">
     <p>
       <em><%= @trip.location %></em>
       <br />
@@ -22,7 +22,10 @@
       <% end %>
     </div>
   </div>
-  <div id="trip_members" class="large-5 push-1 columns">
+</div>
+
+<% content_for :sidebar do %>
+  <div id="trip_members">
     <h3>Trip Members</h3>
     <% @trip.members.each do |member| %>
       <div class="trip-member row">
@@ -39,4 +42,4 @@
       </div>
     <% end %>
   </div>
-</div>
+<% end %>

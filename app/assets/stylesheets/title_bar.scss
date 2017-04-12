@@ -5,7 +5,11 @@ header {
   width: 100%;
   margin-bottom: 10px;
   color: #fff;
-  padding: 0 33px;
+
+  .row {
+    width: 800px;
+    padding-left: 5px;
+  }
 
   h1 {
     font-family: 'Black Ops One', cursive;
@@ -48,9 +52,20 @@ header {
   }
 }
 
+@media only screen and (max-device-width: 800px), only screen and (max-width: 800px) {
+  header {
+    .row {
+      width: 100%;
+      padding: 0 2%;
+    }
+  }
+}
 
 @media only screen and (max-device-width: 380px), only screen and (max-width: 380px) {
   header {
-    padding: 5px;
+    .row {
+      width: 100%;
+      padding: 0 2%;
+    }
   }
 }
