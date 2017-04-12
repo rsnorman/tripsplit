@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170301024839) do
+ActiveRecord::Schema.define(version: 20170412010929) do
 
   create_table "expense_contributions", force: :cascade do |t|
     t.integer  "user_id"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20170301024839) do
     t.datetime "updated_at"
     t.string   "location"
     t.string   "picture"
+    t.string   "slug"
   end
 
   add_index "trips", ["organizer_id"], name: "index_trips_on_organizer_id"
