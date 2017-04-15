@@ -14,7 +14,7 @@ class Ability
     can [:add_expense, :view_expenses, :view_members, :view_payments], Trip do |trip|
       trip.memberships.pluck(:user_id).include?(user.id)
     end
-    can :add_members, Trip do |trip|
+    can [:add_member, :add_members], Trip do |trip|
       trip.organizer_id == user.id
     end
 
