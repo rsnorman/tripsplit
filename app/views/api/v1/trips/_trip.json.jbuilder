@@ -4,6 +4,14 @@ json.organizer do
   json.partial! 'api/v1/users/user', user: trip.organizer
 end
 
+if can?(:add_member_expenses, trip)
+  json.purchasers do
+    json.array! trip.members.select { |m| m.id != current_user.id } do |member|
+      json.partial! 'api/v1/users/user', user: member
+    end
+  end
+end
+
 json.join_trip_url api_link(join_trip_path(trip.slug))
 
 json.actions do
