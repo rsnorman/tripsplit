@@ -1,4 +1,7 @@
-json.(trip, :id, :name, :location, :picture, :description, :total_cost, :average_cost_per_member, :total_members)
+json.(trip, :id, :name, :location, :picture, :description, :total_members)
+
+json.total_cost to_money(trip.total_cost)
+json.average_cost_per_member to_money(trip.average_cost_per_member)
 
 json.organizer do
   json.partial! 'api/v1/users/user', user: trip.organizer
@@ -12,7 +15,7 @@ if can?(:add_member_expenses, trip)
   end
 end
 
-json.join_trip_url api_link(join_trip_path(trip.slug))
+json.join_trip_url api_link(join_trip_path(trip.slug)) if trip.slug
 
 json.actions do
   json.show(url: api_link(api_v1_trip_path(trip)), method: 'GET')

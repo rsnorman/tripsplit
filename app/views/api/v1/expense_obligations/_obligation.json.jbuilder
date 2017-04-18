@@ -1,4 +1,5 @@
-json.(obligation, :id, :amount, :expense_id)
+json.(obligation, :id, :expense_id)
+json.amount to_money(obligation.amount)
 
 if contribution
   json.is_paid true

@@ -1,5 +1,7 @@
 json.cache! ['v1', expense], expires_in: 10.minutes do
-  json.(expense, :id, :name, :description, :cost, :average_cost, :picture, :expense_type)
+  json.(expense, :id, :name, :description, :picture, :expense_type)
+  json.cost to_money(expense.cost)
+  json.average_cost to_money(expense.average_cost)
 
   json.purchaser do
     json.partial! 'api/v1/users/user', user: expense.purchaser
