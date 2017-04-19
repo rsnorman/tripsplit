@@ -10,6 +10,7 @@ if ENV['S3_BUCKET'] && ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_SECRET_ACCESS_KEY']
     config.cache_dir = "#{Rails.root}/tmp/uploads"
     config.fog_directory  = ENV['S3_BUCKET']
     config.fog_public     = false
+    config.fog_authenticated_url_expiration = 1.week
     config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" }
   end
 end
