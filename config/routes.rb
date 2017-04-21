@@ -2,7 +2,10 @@ GroupExpenser::Application.routes.draw do
   devise_for :users
 
   namespace :api do
-    mount_devise_token_auth_for 'User', at: 'v1/auth', skip: [:omniauth_callbacks]
+    mount_devise_token_auth_for 'User', at: 'v1/auth', skip: [:omniauth_callbacks], controllers: {
+      registrations: 'api/v1/registrations',
+      sessions: 'api/v1/sessions'
+    }
   end
 
   namespace :api do
