@@ -26,7 +26,7 @@ class Api::V1::ExpensesController < Api::ApiController
   def expense_params
     params.require(:expense).permit(:purchaser_id, :cost, :expense_type, :name, :description, :picture).tap do |p|
       if cannot?(:create_member_expense, @expense) || p[:purchaser_id].nil?
-        p[:purchaser_id] = @expense.purchaser_id || current_user.id
+        p[:purchaser_id] = @expense.try(:purchaser_id) || current_user.id
       end
     end
   end
