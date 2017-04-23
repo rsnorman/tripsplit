@@ -11,7 +11,7 @@ class Trip < ActiveRecord::Base
   has_many :contributions, through: :expenses
 
   after_create :add_organizer_as_member
-  after_create :set_slug
+  before_create :set_slug
 
   validates :name, presence: true
   validates :location, presence: true
