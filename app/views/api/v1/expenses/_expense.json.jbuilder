@@ -1,4 +1,7 @@
-json.(expense, :id, :name, :description, :picture, :expense_type, :purchaser_id)
+json.(expense, :id, :name, :description, :expense_type, :purchaser_id)
+
+cache_json_image(json, expense, :picture)
+
 json.cost to_money(expense.cost)
 json.average_cost to_money(expense.average_cost)
 
