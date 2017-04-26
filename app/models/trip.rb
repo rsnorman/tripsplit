@@ -1,7 +1,7 @@
 class Trip < ActiveRecord::Base
   include ActionView::Helpers::NumberHelper
 
-  mount_uploader :picture, TripPictureUploader
+  mount_base64_uploader :picture, TripPictureUploader
 
   belongs_to :organizer, class_name: User
   has_many :memberships, class_name: TripMembership, dependent: :destroy

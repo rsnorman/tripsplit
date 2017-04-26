@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
           # :confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  mount_uploader :picture, UserPictureUploader
+  mount_base64_uploader :picture, UserPictureUploader
 
   attr_accessor :current_trip
 
