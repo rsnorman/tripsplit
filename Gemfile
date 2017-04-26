@@ -30,6 +30,7 @@ gem 'rest-client'
 gem 'mini_magick'
 gem 'carrierwave'
 gem 'carrierwave-base64'
+gem 'rack-utf8_sanitizer'
 gem 'fog-aws'
 
 gem 'rollbar'
