@@ -31,6 +31,8 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog-aws'
 
+gem 'rollbar'
+
 group :development, :test do
   gem 'rb-fsevent'
   gem "rspec"
