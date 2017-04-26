@@ -1,5 +1,5 @@
 class Expense < ActiveRecord::Base
-  mount_base64_uploader :picture, ExpensePictureUploader
+  mount_uploader :picture, ExpensePictureUploader
 
   belongs_to :purchaser, class_name: User
   belongs_to :trip
