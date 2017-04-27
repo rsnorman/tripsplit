@@ -8,7 +8,7 @@ class Api::V1::MembersController < Api::ApiController
 
   def create
     set_member
-    @trip.members << @member
+    @trip.add_member(@member)
   end
 
   private

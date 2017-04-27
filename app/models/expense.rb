@@ -20,6 +20,7 @@ class Expense < ActiveRecord::Base
   # Reaverages the obligations to make sure the full cost is covered of the expense
   def reaverage_obligations
     obligations.update_all(amount: average_cost)
+    contributions.update_all(amount: average_cost)
   end
 
   # Gets the cost for a member, factoring in obligations
