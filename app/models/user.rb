@@ -119,4 +119,8 @@ class User < ActiveRecord::Base
 
     user_hash
   end
+
+  def unregistered?
+    encrypted_password.empty?
+  end
 end
