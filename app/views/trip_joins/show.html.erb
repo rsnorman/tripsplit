@@ -1,8 +1,5 @@
 <div class="row">
-  <div class="large-6 columns">
-    <%= render partial: 'shared/phone_screenshots' %>
-  </div>
-  <div id="download_message" class="large-6 columns">
+  <div id="download_message" class="large-12 columns">
     <h3>TripSplit - Making traveling with friends great again</h3>
     <p>
       Hitting the road with a group of friends always results in great stories. While fun times are to be had by all, keeping track of money spent for lodging, gas, or crazy outfits to make everyone stand out is always a hassle. Enter TripSplit to make managing trip exensives much easier.
@@ -14,3 +11,7 @@
     <%= render partial: 'shared/store_badges' %>
   </div>
 </div>
+
+<%= content_for :sidebar do %>
+  <%= image_tag 'phone-screen-shot.jpg' %>
+<% end %>
