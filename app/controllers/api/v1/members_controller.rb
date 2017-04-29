@@ -21,7 +21,7 @@ class Api::V1::MembersController < Api::ApiController
     @member = @trip.members.find(params[:id])
     @membership = @trip.memberships.find_by(user_id: @member.id)
     authorize! :delete_member, @trip
-    @membership.delete
+    @membership.destroy
   end
 
   private

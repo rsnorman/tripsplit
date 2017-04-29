@@ -28,6 +28,7 @@ GroupExpenser::Application.routes.draw do
       resources :obligations, as: :expense_obligations, controller: :expense_obligations, only: :show do
         member do
           post :pay
+          delete :unpay
         end
       end
     end

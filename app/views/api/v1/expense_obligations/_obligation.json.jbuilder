@@ -23,4 +23,5 @@ end
 json.actions do
   json.show(url: api_link(api_v1_expense_obligation_path(obligation)), method: 'GET') if can?(:read, obligation)
   json.pay(url: api_link(pay_api_v1_expense_obligation_path(obligation)), method: 'POST') if can?(:pay, obligation)
+  json.unpay(url: api_link(unpay_api_v1_expense_obligation_path(obligation)), method: 'DELETE') if can?(:unpay, obligation)
 end

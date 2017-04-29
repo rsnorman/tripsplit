@@ -7,8 +7,8 @@ class TripMembership < ActiveRecord::Base
   after_create :add_obligations
 
   def add_obligations
-    self.trip.expenses.each do |e|
-      user.add_obligation(e, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, e.cost / self.trip.members.size)
+    trip.expenses.each do |e|
+      user.add_obligation(e, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, e.cost / trip.members.size)
       e.reaverage_obligations
     end
   end
@@ -16,8 +16,9 @@ class TripMembership < ActiveRecord::Base
   after_destroy :remove_obligations
 
   def remove_obligations
-    user.obligations.where(expense_id: self.trip.expenses.collect(&:id)).destroy_all
-    self.trip.expenses.each do |e|
+    user.obligations.where(expense: trip.expenses).destroy_all
+    user.contributions.where(expense: trip.expenses).destroy_all
+    trip.expenses.each do |e|
       e.reaverage_obligations
     end
   end

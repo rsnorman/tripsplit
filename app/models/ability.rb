@@ -52,11 +52,11 @@ class Ability
     can :manage, ExpenseObligation do |obligation|
       obligation.expense.trip.organizer_id == user.id
     end
-    can :pay, ExpenseObligation do |obligation|
+    can [:pay, :unpay], ExpenseObligation do |obligation|
       obligation.user_id == user.id ||
         obligation.expense.purchaser_id == user.id
     end
-    cannot :pay, ExpenseObligation do |obligation|
+    cannot [:pay, :unpay], ExpenseObligation do |obligation|
       obligation.user_id == obligation.expense.purchaser_id
     end
   end

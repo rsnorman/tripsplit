@@ -16,6 +16,13 @@ class Api::V1::ExpenseObligationsController < Api::ApiController
     @contribution = PayObligation.pay(@obligation)
   end
 
+  def unpay
+    @obligation = ExpenseObligation.find(params[:id])
+    authorize! :pay, @obligation
+    @contribution = ExpenseContribution.find_by(user: @obligation.user, expense: @obligation.expense)
+    @contribution.destroy
+  end
+
   private
 
   def expense_obligation_params
