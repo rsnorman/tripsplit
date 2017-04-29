@@ -3,8 +3,13 @@ json.amount to_money(obligation.amount)
 
 if contribution
   json.is_paid true
+  json.label 'Paid'
+elsif obligation.user_id == obligation.expense.purchaser_id
+  json.label 'Purchased'
+  json.is_paid true
 else
-  json.is_paid obligation.user_id == obligation.expense.purchaser_id
+  json.label 'Unpaid'
+  json.is_paid false
 end
 
 json.user do
