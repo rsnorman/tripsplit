@@ -13,8 +13,15 @@ class Api::V1::MembersController < Api::ApiController
 
   def update
     @member = @trip.members.find(params[:id])
-    authorize! :update_member, @trip, @member
+    authorize! :update_member, @trip
     @member.update(member_params)
+  end
+
+  def destroy
+    @member = @trip.members.find(params[:id])
+    @membership = @trip.memberships.find_by(user_id: @member.id)
+    authorize! :delete_member, @trip
+    @membership.delete
   end
 
   private
