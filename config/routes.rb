@@ -39,6 +39,7 @@ GroupExpenser::Application.routes.draw do
   end
 
   get '/join/:trip_id', to: 'trip_joins#new', as: :join_trip
+  get '/privacy', to: 'home#privacy'
 
   root to: 'home#index'
 end
