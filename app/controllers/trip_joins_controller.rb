@@ -1,7 +1,7 @@
 # Controller for registering, updating, and deleting trips
 class TripJoinsController < ApplicationController
   def new
-    @trip = Trip.find_by!(slug: params[:id])
+    @trip = Trip.find_by!(slug: params[:trip_id])
   end
 
   def create
