@@ -19,15 +19,14 @@ class Expense < ActiveRecord::Base
 
   # Reaverages the obligations to make sure the full cost is covered of the expense
   def reaverage_obligations
-    obligations.update_all(amount: average_cost)
-    contributions.update_all(amount: average_cost)
+    ReaverageObligations.reaverage(self)
   end
 
   # Gets the cost for a member, factoring in obligations
   # @param [User] member that cost is being calculated for
   # @return [BigDecimal] cost for the member
   def cost_for(member)
-    obligations.select { |x| x.user_id == member.id }.map(&:amount).inject(0, :+)
+    obligations.active.select { |x| x.user_id == member.id }.map(&:amount).inject(0, :+)
   end
 
   # Returns the cost for the purchaser, factoring in contributions
@@ -48,6 +47,6 @@ class Expense < ActiveRecord::Base
   # Gets the average cost of expense for all trip members
   # @return [BigDecimal] average cost of expense
   def average_cost
-    @average_cost ||= cost / trip.members.size
+    @average_cost ||= AverageCostCalculator.calculate(self)
   end
 end

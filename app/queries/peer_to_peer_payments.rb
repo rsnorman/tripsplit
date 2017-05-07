@@ -28,12 +28,20 @@ class PeerToPeerPayments
   end
 
   def user_purchases
-    @user_purchases ||= @user.purchases.where(trip: @trip)
+    @user_purchases ||= begin
+      purchases = @user.purchases.where(trip: @trip)
+      obligations = @peer.obligations.active.where(expense: purchases)
+      obligations.map(&:expense)
+    end
   end
 
   def peer_purchases
     return [] if same_user?
-    @peer_purchases ||= @peer.purchases.where(trip: @trip)
+    @peer_purchases ||= begin
+      purchases = @peer.purchases.where(trip: @trip)
+      obligations = @user.obligations.active.where(expense: purchases)
+      obligations.map(&:expense)
+    end
   end
 
   def user_contributions

@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :trips, through: :memberships
   has_many :expenses, through: :trips
   has_many :contributions, class_name: ExpenseContribution, dependent: :destroy
-  has_many :obligations, class_name: ExpenseObligation, dependent: :destroy
+  has_many :obligations, -> { active }, class_name: ExpenseObligation, dependent: :destroy
 
   # Calculates the total cost of the expenses paid for by user of all the trips taken
   # return [BigDecimal] total cost of expenses

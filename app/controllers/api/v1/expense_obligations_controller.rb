@@ -3,11 +3,23 @@ class Api::V1::ExpenseObligationsController < Api::ApiController
   load_and_authorize_resource :expense, through: :current_user, only: :index
 
   def index
-    @obligations = @expense.obligations.includes(:user)
+    @obligations = @expense.obligations.includes(:user) # TODO: load and authorize
     @user_contributions = @expense.contributions.includes(:user).inject({}) do |user_contributions, contribution|
       user_contributions[contribution.user_id] = contribution
       user_contributions
     end
+  end
+
+  def activate
+    @obligation = ExpenseObligation.find(params[:id])
+    authorize! :activate, @obligation
+    ReactivateObligation.activate(@obligation)
+  end
+
+  def destroy
+    @obligation = ExpenseObligation.find(params[:id])
+    authorize! :destroy, @obligation
+    AnnulObligation.annul(@obligation)
   end
 
   def pay

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412010929) do
+ActiveRecord::Schema.define(version: 20170507025938) do
 
   create_table "expense_contributions", force: :cascade do |t|
     t.integer  "user_id"
@@ -27,10 +27,11 @@ ActiveRecord::Schema.define(version: 20170412010929) do
   create_table "expense_obligations", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "expense_id"
-    t.decimal  "amount",     precision: 8, scale: 2
+    t.decimal  "amount",      precision: 8, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.boolean  "is_annulled",                         default: false
   end
 
   add_index "expense_obligations", ["expense_id"], name: "index_expense_obligations_on_expense_id"

@@ -6,4 +6,6 @@ class ExpenseObligation < ActiveRecord::Base
 
   validates_presence_of :amount, :user_id
   validates_uniqueness_of :user_id, scope: :expense_id
+
+  scope :active, -> { where(is_annulled: false) }
 end
