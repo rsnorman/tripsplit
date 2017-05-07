@@ -10,7 +10,7 @@ class PaymentAmountCalculator
   def calculate
     case payment_object.class.to_s
     when Expense.to_s
-      payment_object.cost / payment_object.trip.members.count
+      payment_object.cost / payment_object.obligations.active.count
     when ExpenseContribution.to_s
       payment_object.amount
     else

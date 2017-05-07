@@ -43,20 +43,14 @@ class Ability
       obligation.user_id == user.id ||
         obligation.expense.trip.memberships.pluck(:user_id).include?(user.id)
     end
-    can :manage, ExpenseObligation do |obligation|
-      obligation.user_id == user.id
-    end
-    can :manage, ExpenseObligation do |obligation|
-      obligation.expense.purchaser_id == user.id
-    end
-    can :manage, ExpenseObligation do |obligation|
+    can [:pay, :unpay, :activate, :destroy], ExpenseObligation do |obligation|
       obligation.expense.trip.organizer_id == user.id
     end
-    can [:pay, :unpay], ExpenseObligation do |obligation|
+    can [:pay, :unpay, :activate, :destroy], ExpenseObligation do |obligation|
       obligation.user_id == user.id ||
         obligation.expense.purchaser_id == user.id
     end
-    cannot [:pay, :unpay], ExpenseObligation do |obligation|
+    cannot [:pay, :unpay, :activate, :destroy], ExpenseObligation do |obligation|
       obligation.user_id == obligation.expense.purchaser_id
     end
   end

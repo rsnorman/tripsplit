@@ -1,4 +1,4 @@
-json.(obligation, :id, :expense_id)
+json.(obligation, :id, :expense_id, :is_annulled)
 json.amount to_money(obligation.amount)
 
 if contribution
@@ -7,6 +7,9 @@ if contribution
 elsif obligation.user_id == obligation.expense.purchaser_id
   json.label 'Purchased'
   json.is_paid true
+elsif obligation.is_annulled
+  json.label 'Removed'
+  json.is_paid false
 else
   json.label 'Unpaid'
   json.is_paid false
@@ -22,6 +25,8 @@ end
 
 json.actions do
   json.show(url: api_link(api_v1_expense_obligation_path(obligation)), method: 'GET') if can?(:read, obligation)
-  json.pay(url: api_link(pay_api_v1_expense_obligation_path(obligation)), method: 'POST') if can?(:pay, obligation)
-  json.unpay(url: api_link(unpay_api_v1_expense_obligation_path(obligation)), method: 'DELETE') if can?(:unpay, obligation)
+  json.destroy(url: api_link(api_v1_expense_obligation_path(obligation)), method: 'DELETE') if can?(:destroy, obligation) && can_annul?(obligation, contribution)
+  json.activate(url: api_link(activate_api_v1_expense_obligation_path(obligation)), method: 'POST') if can?(:activate, obligation) && can_activate?(obligation)
+  json.pay(url: api_link(pay_api_v1_expense_obligation_path(obligation)), method: 'POST') if can?(:pay, obligation) && can_pay?(obligation, contribution)
+  json.unpay(url: api_link(unpay_api_v1_expense_obligation_path(obligation)), method: 'DELETE') if can?(:unpay, obligation) && can_unpay?(obligation, contribution)
 end
