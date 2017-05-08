@@ -4941,12 +4941,26 @@ body {
 }
 
 .page-home .platform-badge-container {
-    position: absolute;
-    margin-top: 25px;
+  position: relative;
+  margin-top: 25px;
+  width: 100%;
 }
 
-.page-home .platform-badge {
-    margin-right: 16px;
+.page-home .platform-badge:first-child {
+  margin-right: 10%;
+  width: 40%;
+  float: left;
+}
+
+.page-home .platform-badge:last-child {
+  width: 50%;
+  float: left;
+  position: relative;
+  top: -15px;
+}
+
+.page-home .platform-badge img {
+  width: 100%;
 }
 
 .home-megaphone-wrapper {
