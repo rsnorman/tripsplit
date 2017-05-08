@@ -19,8 +19,9 @@ json.user do
   json.partial! 'api/v1/users/user', user: obligation.user
 end
 
+include_expense_obligations = false if local_assigns[:include_expense_obligations].nil?
 json.expense do
-  json.partial! 'api/v1/expenses/expense', expense: obligation.expense
+  json.partial! 'api/v1/expenses/expense', expense: obligation.expense, include_obligations: include_expense_obligations
 end
 
 json.actions do

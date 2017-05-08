@@ -13,6 +13,15 @@ json.trip do
   json.partial! 'api/v1/trips/trip', trip: expense.trip
 end
 
+include_obligations = false if local_assigns[:include_obligations].nil?
+if include_obligations
+  json.obligations do
+    json.array! order_expense_obligations(expense.obligations, purchaser: expense.purchaser) do |obligation|
+      json.partial! 'api/v1/expense_obligations/obligation', obligation: obligation, contribution: expense.contributions.detect { |c| c.user_id == obligation.user_id }
+    end
+  end
+end
+
 json.actions do
   json.show(url: api_link(api_v1_trip_expense_path(expense.trip, expense)), method: 'GET') if can?(:read, expense)
   json.update(url: api_link(api_v1_trip_expense_path(expense.trip, expense)), method: 'PATCH') if can?(:update, expense)
