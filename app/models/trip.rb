@@ -45,30 +45,19 @@ class Trip < ActiveRecord::Base
     total_cost / memberships.size
   end
 
-  # Calculates how much is owed to a member of the trip
-  # @param [User] member of the trip
-  # @return [BigDecimal] amount owed to the member
-  # @note Will return negative if member owes money
-  def total_due_to(member)
-    [total_contributed_from(member) - total_obligated_from(member), 0].max
-  end
-
-  # Calculates how much a member of the trip owes
-  # @param [User] member of the trip
-  # @return [BigDecimal] amount member owes
-  # @note Will return negative if member is owed money
-  def total_owed_from(member)
-    [total_obligated_from(member) - total_contributed_from(member), 0].max
-  end
-
   # Sums up the total amount the member has paid for on the trip
   # @param [User] member that has contributed
   # @return [BigDecimal] total amount of contributions
   def total_contributed_from(member)
-    contributed_total = member.purchases.where(trip_id: self.id).sum(:cost)
-    contributed_total += member.contributions.where(["expense_id IN (:expense_ids)", {expense_ids: expenses.collect(&:id)}]).sum(:amount)
-    contributed_total -= contributions.where(["expense_id IN (:expense_ids)", {expense_ids: member.purchases.collect(&:id)}]).sum(:amount)
-    contributed_total
+    member_purchases = member.purchases.where(trip: self)
+    member_purchases.sum(:cost) + total_paid_back_from(member) - contributions.where(["expense_id IN (:expense_ids)", {expense_ids: member_purchases.pluck(:id)}]).sum(:amount)
+  end
+
+  # Sums up the total amount the member has paid back on the trip
+  # @param [User] member that has paid back
+  # @return [BigDecimal] total amount paid back
+  def total_paid_back_from(member)
+    member.contributions.where(["expense_id IN (:expense_ids)", {expense_ids: expenses.collect(&:id)}]).sum(:amount)
   end
 
   # Sums up the total amount the member is obligated for on the trip

@@ -1,7 +1,7 @@
 json.partial! 'api/v1/users/user', user: member
 
 json.total_purchased_amount to_money(member.purchases.where(trip: trip).sum(:cost))
-json.total_obligated_amount to_money(trip.total_owed_from(member))
+json.total_paid_back_amount to_money(trip.total_paid_back_from(member))
 json.total_contributed_amount to_money(trip.total_contributed_from(member))
 json.owes_current_user to_money(member.owes_user(current_user, trip))
 

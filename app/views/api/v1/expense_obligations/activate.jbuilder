@@ -1,1 +1,1 @@
-json.partial! 'obligation', obligation: @obligation, contribution: nil, include_expense_obligations: true
+json.partial! 'obligation', obligation: @obligation, include_expense_obligations: true

@@ -1,6 +1,7 @@
 json.(obligation, :id, :expense_id, :is_annulled)
 json.amount to_money(obligation.amount)
 
+contribution = nil if local_assigns[:contribution].nil?
 if contribution
   json.is_paid true
   json.label 'Paid'

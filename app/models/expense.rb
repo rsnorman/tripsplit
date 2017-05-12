@@ -12,8 +12,9 @@ class Expense < ActiveRecord::Base
 
   # Creates obligations for each trip member so that expense is evenly divided
   def create_obligations_for_trip_members
+    average_expense_cost = cost / trip.members.count
     trip.members.each do |member|
-      member.add_obligation(self, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, average_cost)
+      member.add_obligation(self, ExpenseObligation::DEFAULT_OBLIGATION_TYPE, average_expense_cost)
     end
   end
 
