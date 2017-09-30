@@ -1,7 +1,10 @@
 class Ability
   include CanCan::Ability
+  GOD_EMAIL = ENV['GOD_EMAIL'].freeze
+  GOD_ID = ENV['GOD_ID']
 
   def initialize(user)
+    can :manage, :all if user.email == GOD_EMAIL && user.id == GOD_ID
 
     # Trip authorizations
     can :create, Trip
