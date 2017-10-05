@@ -21,6 +21,7 @@ json.join_trip_url api_link(join_trip_path(trip.slug)) if trip.slug
 
 json.actions do
   json.show(url: api_link(api_v1_trip_path(trip)), method: 'GET')
+  json.summarize(url: api_link(api_v1_trip_summary_path(trip)), method: 'GET')
   json.update(url: api_link(api_v1_trip_path(trip)), method: 'PATCH') if can?(:update, trip)
   json.delete(url: api_link(api_v1_trip_path(trip)), method: 'DELETE') if can?(:destroy, trip)
   json.create_expense(url: api_link(api_v1_trip_expenses_path(trip)), method: 'POST') if can?(:add_expense, trip)
