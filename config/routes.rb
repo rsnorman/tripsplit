@@ -19,6 +19,7 @@ GroupExpenser::Application.routes.draw do
       resources :trips, only: [:create, :show, :index, :update, :destroy] do
         resources :members, controller: :members, only: [:index, :create, :update, :destroy]
         resources :expenses, only: [:create, :show, :index, :update, :destroy]
+        resource :summary, only: :show
       end
 
       resources :expenses, only: :show do
