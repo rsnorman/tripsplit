@@ -1,7 +1,7 @@
 class ExpensePictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-  storage :fog
+  storage :fog if Rails.env.production?
 
   process resize_to_fit: [500, 500]
 
