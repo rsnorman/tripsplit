@@ -79,3 +79,12 @@
   font-size: 1.1em;
   text-align: right;
 }
+
+.empty-image {
+  background-color: $color-primary-1;
+  color: white;
+  font-size: 1.8em;
+  display:flex;
+  align-items: center; /* Vertical center alignment */
+  justify-content: center;
+}

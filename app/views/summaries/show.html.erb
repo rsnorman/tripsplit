@@ -7,7 +7,7 @@
 <div class="row">
   <div id="trip_description" class="large-12 columns">
     <p>
-      <img class="trip-image" src="<%= @trip.picture.thumb.url %>" alt="<%= @trip.name %>" />
+      <%= uploaded_image(@trip.picture.thumb.url, type: :trip, class_name: 'trip-image', alt: @trip.name) %>
       <em><%= @trip.location %></em>
       <br />
       <%= @trip.description %>
@@ -20,7 +20,7 @@
     <div class="large-12 columns">
       <div class="row member-details">
         <div class="large-12 columns">
-          <img class="member-image" src="<%= member.picture.thumb.url %>" alt="<%= member.name %>" />
+          <%= uploaded_image(member.picture.thumb.url, type: :user, class_name: 'member-image', alt: member.name) %>
           <h6><%= member.name %></h6>
         </div>
       </div>
@@ -36,7 +36,7 @@
           <div class="large-12 columns">
             <div class="row">
               <div class="large-10 columns">
-                <img class="purchase-image" src="<%= purchase.picture.thumb.url %>" alt="<%= purchase.name %>" />
+                <%= uploaded_image(purchase.picture.thumb.url, type: :purchase, class_name: 'purchase-image', alt: purchase.name) %>
                 <%= purchase.name %>
                 <br />
                 <em>
@@ -61,7 +61,7 @@
       <% owing_members.each do |owing_member, amount| %>
         <div class="row owing-member">
           <div class="large-10 columns">
-            <img class="owing-member-image" src="<%= owing_member.picture.thumb.url %>" alt="<%= owing_member.name %>" />
+            <%= uploaded_image(owing_member.picture.thumb.url, type: :user, class_name: 'owing-member-image', alt: owing_member.name) %>
             <h6><%= owing_member.name %></h6>
           </div>
           <div class="large-2 columns money">
@@ -86,7 +86,7 @@
       <% crediting_members.each do |crediting_member, amount| %>
         <div class="row crediting-member">
           <div class="large-10 columns">
-            <img class="crediting-member-image" src="<%= crediting_member.picture.thumb.url %>" alt="<%= crediting_member.name %>" />
+            <%= uploaded_image(crediting_member.picture.thumb.url, type: :user, class_name: 'crediting-member-image', alt: crediting_member.name) %>
             <h6><%= crediting_member.name %></h6>
           </div>
           <div class="large-2 columns money">
