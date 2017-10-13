@@ -42,7 +42,7 @@
                 <br />
                 <em>
                   Purchased for
-                  <% obligators = purchase.obligations.select { |o| o.amount > 0 }.map { |o| o.user.name } %>
+                  <% obligators = purchase.obligations.select { |o| o.amount > 0 && o.user_id != member.id }.map { |o| o.user.name } %>
                   <% if obligators.empty? %>
                     no one
                   <% else %>
