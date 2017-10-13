@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  GOD_EMAIL = ENV['GOD_EMAIL'].freeze
+  GOD_ID = ENV['GOD_ID'].to_i
+
   # Include default devise modules.
   devise :database_authenticatable, :registerable
           # :recoverable, :rememberable, :trackable, :validatable,
@@ -16,6 +19,15 @@ class User < ActiveRecord::Base
   has_many :expenses, through: :trips
   has_many :contributions, class_name: ExpenseContribution, dependent: :destroy
   has_many :obligations, -> { active }, class_name: ExpenseObligation, dependent: :destroy
+
+  def god?
+    email == GOD_EMAIL && id == GOD_ID
+  end
+
+  def trips
+    super unless god?
+    Trip.all
+  end
 
   # Calculates the total cost of the expenses paid for by user of all the trips taken
   # return [BigDecimal] total cost of expenses
