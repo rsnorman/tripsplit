@@ -41,7 +41,7 @@
                 <br />
                 <em>
                   Purchased for
-                  <%= purchase.obligations.map { |o| o.user.name }.to_sentence %>
+                  <%= purchase.obligations.select { |o| o.amount > 0 }.map { |o| o.user.name }.to_sentence %>
                 </em>
               </div>
               <div class="large-2 columns money">
