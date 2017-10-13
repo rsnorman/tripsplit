@@ -7,6 +7,8 @@ class Expense < ActiveRecord::Base
   has_many :contributions, class_name: ExpenseContribution, dependent: :destroy
   has_many :obligations, class_name: ExpenseObligation, dependent: :destroy
 
+  scope :for_trip, -> (trip) { where(trip: trip) }
+
   after_create :create_obligations_for_trip_members
   after_update :reaverage_obligations, if: -> { self.cost_was != self.cost }
 
