@@ -21,7 +21,7 @@
       <div class="row member-details">
         <div class="large-12 columns">
           <%= uploaded_image(member.picture.thumb.url, type: :user, class_name: 'member-image', alt: member.name) %>
-          <h6><%= member.name %></h6>
+          <div class='member-name'><%= member.name %></div>
         </div>
       </div>
 
@@ -31,17 +31,23 @@
         </div>
       </div>
 
-      <% member.purchases.for_trip(@trip).each do |purchase| %>
+      <% purchases = member.purchases.for_trip(@trip) %>
+      <% purchases.each do |purchase| %>
         <div class="row member-purchase">
           <div class="large-12 columns">
             <div class="row">
               <div class="large-10 columns">
                 <%= uploaded_image(purchase.picture.thumb.url, type: :purchase, class_name: 'purchase-image', alt: purchase.name) %>
-                <%= purchase.name %>
+                <strong><%= purchase.name %></strong>
                 <br />
                 <em>
                   Purchased for
-                  <%= purchase.obligations.select { |o| o.amount > 0 }.map { |o| o.user.name }.to_sentence %>
+                  <% obligators = purchase.obligations.select { |o| o.amount > 0 }.map { |o| o.user.name } %>
+                  <% if obligators.empty? %>
+                    no one
+                  <% else %>
+                    <%= obligators.to_sentence %>
+                  <% end %>
                 </em>
               </div>
               <div class="large-2 columns money">
@@ -51,6 +57,15 @@
           </div>
         </div>
       <% end %>
+
+      <div class="row total-row">
+        <div class="large-12 columns">
+          <span class="total-label">Total:</span>
+          <span class="money">
+            $<%= to_money(purchases.map(&:cost).sum) %>
+          </span>
+        </div>
+      </div>
 
       <div class="row member-summary-section">
         <div class="large-12 columns">
@@ -73,6 +88,15 @@
         <div class="row empty-row">
           <div class="large-12 columns">
             No one owes money
+          </div>
+        </div>
+      <% else %>
+        <div class="row total-row">
+          <div class="large-12 columns">
+            <span class="total-label">Total:</span>
+            <span class="money">
+              $<%= to_money(owing_members.map { |_, amount| amount }.sum) %>
+            </span>
           </div>
         </div>
       <% end %>
@@ -98,6 +122,15 @@
         <div class="row empty-row">
           <div class="large-12 columns">
             Owes no one money
+          </div>
+        </div>
+      <% else %>
+        <div class="row total-row">
+          <div class="large-12 columns">
+            <span class="total-label">Total:</span>
+            <span class="money">
+              $<%= to_money(crediting_members.map { |_, amount| amount }.sum) %>
+            </span>
           </div>
         </div>
       <% end %>
