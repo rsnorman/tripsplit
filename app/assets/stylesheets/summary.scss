@@ -1,0 +1,81 @@
+@import 'variables';
+
+#trip_description {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $color-primary-2;
+
+  .trip-image {
+    float: left;
+    margin-right: 15px;
+    width: 75px;
+    height: 75px;
+    border-radius: 37.5px;
+  }
+}
+
+.member-summary {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid $color-primary-2;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.member-details {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+
+  .member-image {
+    width: 50px;
+    height: 50px;
+    float: left;
+    border-radius: 25px;
+    margin-right: 10px;
+  }
+}
+
+.member-summary-section {
+  margin-top: 20px;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.member-purchase {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+
+  .purchase-image {
+    width: 40px;
+    height: 40px;
+    float: left;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+}
+
+.owing-member, .crediting-member {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+
+  .owing-member-image, .crediting-member-image {
+    width: 40px;
+    height: 40px;
+    float: left;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+}
+
+.empty-row {
+  font-style: italic;
+}
+
+.money {
+  font-weight: bold;
+  color: $color-primary-0;
+  font-size: 1.1em;
+  text-align: right;
+}

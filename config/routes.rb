@@ -37,6 +37,7 @@ GroupExpenser::Application.routes.draw do
 
   resources :trips, only: nil do
     resources :joins, controller: :trip_joins, only: [:new, :create]
+    resource :summary
   end
 
   get '/join/:trip_id', to: 'trip_joins#new', as: :join_trip
