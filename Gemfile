@@ -31,6 +31,8 @@ gem 'mini_magick'
 gem 'carrierwave'
 gem 'fog-aws'
 
+gem 'sendgrid-ruby'
+
 gem 'rollbar'
 
 group :development, :test do
