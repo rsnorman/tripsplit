@@ -24,11 +24,6 @@ class User < ActiveRecord::Base
     email == GOD_EMAIL && id == GOD_ID
   end
 
-  def trips
-    super unless god?
-    Trip.all
-  end
-
   # Calculates the total cost of the expenses paid for by user of all the trips taken
   # return [BigDecimal] total cost of expenses
   def total_purchases_cost
